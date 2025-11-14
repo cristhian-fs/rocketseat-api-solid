@@ -1,15 +1,20 @@
-import { expect, test, it, describe } from "vitest"
+import { expect, it, describe, beforeEach } from "vitest"
 import { RegisterService } from "./register"
 import { compare } from "bcryptjs"
 import { InMemoryUsersRepository } from "@/repositories/in-memory/in-memory-users-repository"
 import { UserAlreadyExistsError } from "./errors/user-already-exists-error"
 
-describe('Register Service', () => {
-  it('should be able to register', async () => {
-    const usersRepo = new InMemoryUsersRepository()
-    const registerService = new RegisterService(usersRepo)
+let usersRepo: InMemoryUsersRepository
+let sut: RegisterService
 
-    const { user } = await registerService.execute({
+describe('Register Service', () => {
+  beforeEach(() => {
+    usersRepo = new InMemoryUsersRepository();
+    sut = new RegisterService(usersRepo)
+  })
+
+  it('should be able to register', async () => {
+    const { user } = await sut.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: 'password'
@@ -19,10 +24,7 @@ describe('Register Service', () => {
     expect(user.id).toEqual(expect.any(String));
   })
   it('should hash user password upon registration', async () => {
-    const usersRepo = new InMemoryUsersRepository()
-    const registerService = new RegisterService(usersRepo)
-
-    const { user } = await registerService.execute({
+    const { user } = await sut.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: 'password'
@@ -36,23 +38,19 @@ describe('Register Service', () => {
     expect(isPasswordCorrectlyHashed).toBe(true);
   })
   it('should not be able to register with the same email twice', async () => {
-    const usersRepo = new InMemoryUsersRepository()
-    const registerService = new RegisterService(usersRepo)
-
     const email = 'johndoe@example.com'
-    await registerService.execute({
+    await sut.execute({
       name: 'John Doe',
       email,
       password: 'password'
     })
 
     await expect(() =>
-      registerService.execute({
+      sut.execute({
         name: 'John Doe',
         email,
         password: 'password'
       })
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
-
   })
 })
