@@ -5,7 +5,7 @@ GymPass style app.
 ## RFs (Requisitos funcionais)
 
 - [x] Deve ser possivel se cadastrar;
-- [ ] Deve ser possivel se autenticar;
+- [x] Deve ser possivel se autenticar;
 - [ ] Deve ser possivel obter o perfil de um usuario logado;
 - [ ] Deve ser possivel obter o numero de check-ins realizados pelo usuario logado;
 - [ ] Deve ser possivel o usuario obter seu historico de check-ins;
@@ -27,7 +27,7 @@ GymPass style app.
 ## RNFs (Requisitos nao funcionais)
 
 - [x] A senha do usuario precisa estar criptografada;
-- [ ] Os dados da aplicacao precisam estar persistidos em um banco PostgreSQL;
+- [x] Os dados da aplicacao precisam estar persistidos em um banco PostgreSQL;
 - [ ] Todas as listas de dados precisam estar paginadas com 20 items por paginas;
 - [ ] O usuario deve ser identificado por um JWT (JSON Web Token);
 
