@@ -6,6 +6,9 @@ import { endOfDay, isAfter, isBefore, startOfDay } from "date-fns";
 
 export class InMemoryCheckInsRepository implements CheckInsRepository {
   public items: CheckIn[] = []
+  async findManyByUserId(userId: string, page: number): Promise<CheckIn[]> {
+    return this.items.filter(item => item.user_id === userId).slice((page - 1) * 20, page * 20)
+  }
   async create(data: CheckInUncheckedCreateInput): Promise<CheckIn> {
     const checkIn = {
       id: randomUUID(),
