@@ -1,9 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify"
 import z from "zod"
-import { RegisterService } from "@/services/register"
-import { PrismaUserRepository } from "@/repositories/prisma/prisma-users-repository"
 import { UserAlreadyExistsError } from "@/services/errors/user-already-exists-error"
-import { makeRegisterUseCase } from "@/services/factories/make-register-use-case"
+import { makeRegisterUseCase } from "@/services/factories/make-register-service"
 
 export async function registerUser(request: FastifyRequest, reply: FastifyReply) {
   const registerBodySchema = z.object({
