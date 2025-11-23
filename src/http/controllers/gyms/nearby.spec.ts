@@ -13,7 +13,9 @@ describe('Nearby Gyms (2e2)', () => {
   })
 
   it('should be able to search for nearby gyms', async () => {
-    await request(app.server).post('/gyms').send({
+
+    const { token } = await createAnAuthenticateUser(app)
+    await request(app.server).post('/gyms').set('Authorization', `Bearer ${token}`).send({
       title: 'Near Gym',
       description: null,
       phone: null,
@@ -21,7 +23,7 @@ describe('Nearby Gyms (2e2)', () => {
       longitude: -45.2225602,
     })
 
-    await request(app.server).post('/gyms').send({
+    await request(app.server).post('/gyms').set('Authorization', `Bearer ${token}`).send({
       title: 'Away gym',
       description: null,
       phone: null,
@@ -29,7 +31,6 @@ describe('Nearby Gyms (2e2)', () => {
       longitude: -45.6169286,
     })
 
-    const { token } = await createAnAuthenticateUser(app)
     const response = await request(app.server)
       .get('/gyms/nearby')
       .query({
